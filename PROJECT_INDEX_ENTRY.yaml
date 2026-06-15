@@ -1,0 +1,36 @@
+codename: aegis
+name: AIC AI Reliability Control Plane
+slug: aic-aegis
+company: Applied Innovation Corp
+owner: Thomas Carter
+owner_email: thomas.carter@appliedinnovationcorp.com
+status: pre_mvp
+kind: software_platform
+category: ai_reliability_control_plane
+one_liner: >
+  Memory, tools, policy, evals, evidence, and business outcome intelligence
+  for production AI systems.
+repo_path: ./aic-aegis
+source_of_truth:
+  project_metadata: .aic/metadata/project.yaml
+  product_charter: docs/product/WP-E0-001-product-charter.md
+  architecture: docs/architecture/system-overview.md
+  adr_index: docs/adrs/README.md
+  epic_index: docs/planning/epics/README.md
+  work_packet_index: docs/planning/work-packets/README.md
+mvp:
+  first_workflow: sales_ops_assistant
+  acceptance_anchor: >
+    Given a customer-support or sales-ops task, the system creates a run,
+    retrieves governed memory, brokers tool calls through policy, records
+    trace and evidence, collects feedback, and produces eval results.
+tags:
+  - ai
+  - agentops
+  - governance
+  - evals
+  - memory
+  - tool-use
+  - policy-as-code
+  - evidence
+  - business-outcomes

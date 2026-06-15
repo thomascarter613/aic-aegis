@@ -1,0 +1,21 @@
+version: "3"
+
+tasks:
+  doctor:
+    cmds:
+      - bash scripts/doctor.sh
+  check:
+    cmds:
+      - bash scripts/check.sh
+  dev:
+    cmds:
+      - bash scripts/dev.sh
+  test:
+    cmds:
+      - bash scripts/test.sh
+  fmt:
+    cmds:
+      - bash scripts/format.sh
+  lint:
+    cmds:
+      - bash scripts/lint.sh

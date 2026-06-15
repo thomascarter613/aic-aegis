@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aic.dev/aegis/schemas/run-envelope.schema.json",
+  "title": "RunEnvelope",
+  "type": "object",
+  "required": ["run_id", "tenant_id", "agent_id", "task_type", "status", "created_at"],
+  "properties": {
+    "run_id": { "type": "string" },
+    "tenant_id": { "type": "string" },
+    "user_id": { "type": "string" },
+    "agent_id": { "type": "string" },
+    "agent_version": { "type": "string" },
+    "task_type": { "type": "string" },
+    "status": {
+      "type": "string",
+      "enum": ["created", "running", "waiting_for_approval", "completed", "failed", "cancelled"]
+    },
+    "trace_id": { "type": "string" },
+    "evidence_pack_id": { "type": "string" },
+    "policy_context": { "type": "object", "additionalProperties": true },
+    "memory_context": { "type": "object", "additionalProperties": true },
+    "input_refs": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "created_at": { "type": "string", "format": "date-time" },
+    "updated_at": { "type": "string", "format": "date-time" }
+  },
+  "additionalProperties": false
+}

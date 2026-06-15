@@ -1,0 +1,34 @@
+name: Work Packet
+description: Define a bounded executable work packet
+title: "WP: "
+labels: ["work-packet"]
+body:
+  - type: input
+    id: epic
+    attributes:
+      label: Parent epic
+      placeholder: "E0, E1, E2..."
+    validations:
+      required: true
+  - type: textarea
+    id: objective
+    attributes:
+      label: Objective
+    validations:
+      required: true
+  - type: textarea
+    id: deliverables
+    attributes:
+      label: Deliverables
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance criteria
+    validations:
+      required: true
+  - type: textarea
+    id: notes
+    attributes:
+      label: Notes

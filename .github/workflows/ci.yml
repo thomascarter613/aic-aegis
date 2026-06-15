@@ -1,0 +1,18 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+jobs:
+  scaffold-check:
+    name: Scaffold check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run doctor
+        run: bash scripts/doctor.sh
+      - name: Run check
+        run: bash scripts/check.sh

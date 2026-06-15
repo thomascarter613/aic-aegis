@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aic.dev/aegis/schemas/tool-manifest.schema.json",
+  "title": "ToolManifest",
+  "type": "object",
+  "required": ["id", "name", "risk_level", "side_effect", "input_schema", "output_schema"],
+  "properties": {
+    "id": { "type": "string" },
+    "name": { "type": "string" },
+    "description": { "type": "string" },
+    "risk_level": {
+      "type": "string",
+      "enum": ["read_only", "low_write", "medium_write", "high_write", "critical"]
+    },
+    "side_effect": { "type": "boolean" },
+    "requires_approval": {
+      "type": "string",
+      "enum": ["never", "conditional", "always"]
+    },
+    "input_schema": { "type": "string" },
+    "output_schema": { "type": "string" },
+    "allowed_roles": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "data_classes_allowed": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": ["public", "internal", "confidential", "restricted"]
+      }
+    },
+    "evidence_required": { "type": "boolean" }
+  },
+  "additionalProperties": false
+}

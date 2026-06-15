@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aic.dev/aegis/schemas/eval-case.schema.json",
+  "title": "EvalCase",
+  "type": "object",
+  "required": ["eval_case_id", "name", "input", "expected"],
+  "properties": {
+    "eval_case_id": { "type": "string" },
+    "name": { "type": "string" },
+    "tags": { "type": "array", "items": { "type": "string" } },
+    "input": { "type": "object", "additionalProperties": true },
+    "expected": { "type": "object", "additionalProperties": true },
+    "rubric": { "type": "string" },
+    "risk_category": { "type": "string" }
+  },
+  "additionalProperties": false
+}

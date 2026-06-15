@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aic.dev/aegis/schemas/policy-decision.schema.json",
+  "title": "PolicyDecision",
+  "type": "object",
+  "required": ["decision_id", "run_id", "decision", "reason", "policy_id", "created_at"],
+  "properties": {
+    "decision_id": { "type": "string" },
+    "run_id": { "type": "string" },
+    "trace_id": { "type": "string" },
+    "decision": {
+      "type": "string",
+      "enum": ["allow", "deny", "require_approval", "sanitize", "redact", "escalate", "defer"]
+    },
+    "reason": { "type": "string" },
+    "policy_id": { "type": "string" },
+    "policy_version": { "type": "string" },
+    "input_hash": { "type": "string" },
+    "created_at": { "type": "string", "format": "date-time" }
+  },
+  "additionalProperties": false
+}

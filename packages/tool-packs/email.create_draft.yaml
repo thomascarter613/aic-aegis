@@ -1,0 +1,16 @@
+id: email.create_draft
+name: Create Email Draft
+description: Create an email draft without sending it.
+risk_level: low_write
+side_effect: true
+requires_approval: conditional
+input_schema: packages/schemas/json/tools/email.create_draft.input.schema.json
+output_schema: packages/schemas/json/tools/email.create_draft.output.schema.json
+allowed_roles:
+  - sales_ops_agent
+  - support_agent
+data_classes_allowed:
+  - public
+  - internal
+  - confidential
+evidence_required: true

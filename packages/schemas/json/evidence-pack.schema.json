@@ -1,0 +1,34 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aic.dev/aegis/schemas/evidence-pack.schema.json",
+  "title": "EvidencePack",
+  "type": "object",
+  "required": ["evidence_pack_id", "run_id", "tenant_id", "agent_id", "created_at"],
+  "properties": {
+    "evidence_pack_id": { "type": "string" },
+    "run_id": { "type": "string" },
+    "trace_id": { "type": "string" },
+    "tenant_id": { "type": "string" },
+    "agent_id": { "type": "string" },
+    "input_refs": { "type": "array", "items": { "type": "string" } },
+    "memory_refs": { "type": "array", "items": { "type": "string" } },
+    "retrieved_context_refs": { "type": "array", "items": { "type": "string" } },
+    "policy_decision_refs": { "type": "array", "items": { "type": "string" } },
+    "model_call_refs": { "type": "array", "items": { "type": "string" } },
+    "tool_call_refs": { "type": "array", "items": { "type": "string" } },
+    "approval_refs": { "type": "array", "items": { "type": "string" } },
+    "output_refs": { "type": "array", "items": { "type": "string" } },
+    "eval_result_refs": { "type": "array", "items": { "type": "string" } },
+    "business_outcome_refs": { "type": "array", "items": { "type": "string" } },
+    "cost": {
+      "type": "object",
+      "properties": {
+        "tokens": { "type": "integer", "minimum": 0 },
+        "usd": { "type": "number", "minimum": 0 }
+      },
+      "additionalProperties": false
+    },
+    "created_at": { "type": "string", "format": "date-time" }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aic.dev/aegis/schemas/business-outcome.schema.json",
+  "title": "BusinessOutcome",
+  "type": "object",
+  "required": ["outcome_id", "run_id", "metric_name", "metric_value", "created_at"],
+  "properties": {
+    "outcome_id": { "type": "string" },
+    "run_id": { "type": "string" },
+    "tenant_id": { "type": "string" },
+    "metric_name": { "type": "string" },
+    "metric_value": { "type": "number" },
+    "unit": { "type": "string" },
+    "baseline_value": { "type": "number" },
+    "estimated": { "type": "boolean" },
+    "notes": { "type": "string" },
+    "created_at": { "type": "string", "format": "date-time" }
+  },
+  "additionalProperties": false
+}

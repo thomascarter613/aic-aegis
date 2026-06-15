@@ -1,0 +1,53 @@
+# OS/editor
+.DS_Store
+.idea/
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+
+# Env/secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+secrets/
+.local-secrets/
+
+# Node/Bun
+node_modules/
+.bun/
+dist/
+build/
+.turbo/
+.next/
+coverage/
+
+# Python
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+
+# Runtime state
+.aic/runtime/
+.aic/tmp/
+logs/
+tmp/
+
+# Databases/data dumps
+*.sqlite
+*.sqlite3
+*.db
+*.dump
+*.sql.gz
+
+# Evidence exports can contain sensitive data
+exports/
+evidence-packs/

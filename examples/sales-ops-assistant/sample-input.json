@@ -1,0 +1,8 @@
+{
+  "tenant_id": "tenant_demo",
+  "user_id": "user_demo",
+  "agent_id": "agent_sales_ops",
+  "task_type": "customer_follow_up",
+  "conversation": "Customer asked about implementation timeline and requested a follow-up by Friday.",
+  "requested_action": "Draft a follow-up email and suggest CRM updates."
+}

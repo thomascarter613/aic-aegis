@@ -1,0 +1,717 @@
+Yes, but with discipline.
+
+For **Aegis**, I recommend:
+
+```text
+MACH principles: yes, as directionally correct architecture principles.
+CQRS: yes, selectively, for the parts where auditability, evidence, projections, and read models matter.
+```
+
+I would **not** recommend turning Aegis v1 into an over-distributed, event-sourced, microservice-heavy system too early.
+
+The better formulation is:
+
+> **Aegis should be Clean Architecture at the core, MACH-aligned at the platform boundary, and CQRS/event-log-friendly for runs, evidence, evals, memory, and outcomes.**
+
+---
+
+# 1. MACH Principles
+
+MACH means:
+
+```text
+M — Microservices
+A — API-first
+C — Cloud-native
+H — Headless
+```
+
+For Aegis, I recommend **MACH-aligned**, not necessarily “full MACH from day one.”
+
+## M — Microservices
+
+### Recommendation: yes logically, not physically at MVP
+
+Aegis naturally has separate capability domains:
+
+```text
+runtime
+memory
+tool broker
+policy
+evidence
+evals
+feedback
+outcomes
+```
+
+Those are good **service boundaries**.
+
+But I would not deploy all of them as separate microservices in MVP or early v1.
+
+Recommended approach:
+
+```text
+MVP:
+  modular monolith or two-process system:
+    aegis-api
+    aegis-worker
+
+v1:
+  still likely aegis-api + aegis-worker,
+  but with clean internal module boundaries
+
+v2 / scale:
+  split runtime, memory, tool-broker, policy, evidence, evals if needed
+```
+
+So yes to **microservice boundaries**, no to premature microservice deployment.
+
+### Why
+
+If you split too early, you pay for:
+
+```text
+distributed debugging
+service discovery
+network failures
+cross-service transactions
+deployment complexity
+observability complexity
+local dev pain
+```
+
+Aegis already has enough conceptual complexity. The first version should prove the control loop.
+
+---
+
+## A — API-first
+
+### Recommendation: strongly yes
+
+Aegis should absolutely be API-first.
+
+Its whole purpose is to wrap other systems, agents, workflows, apps, and tools. That means stable contracts matter.
+
+API-first applies to:
+
+```text
+Run API
+Memory API
+Tool Broker API
+Policy Decision API
+Evidence API
+Eval API
+Feedback API
+Outcome API
+Webhook API
+SDK API
+```
+
+Aegis should define contracts before implementation:
+
+```text
+OpenAPI for HTTP APIs
+JSON Schema for core objects
+AsyncAPI or event specs for events
+YAML manifests for tools, policies, eval packs
+SDK interfaces for TypeScript/Python
+```
+
+This fits Aegis perfectly.
+
+---
+
+## C — Cloud-native
+
+### Recommendation: yes, but local-first first
+
+Aegis should be **cloud-native capable**, but **local-first by default**.
+
+For MVP:
+
+```text
+Docker Compose
+Postgres
+pgvector
+Redis
+OPA
+OTEL Collector
+mock model provider
+```
+
+For v1:
+
+```text
+containerized API
+containerized worker
+managed Postgres option
+managed Redis option
+object storage
+OpenTelemetry
+CI/CD
+secrets management
+horizontal worker scaling
+```
+
+For later:
+
+```text
+Kubernetes or Nomad
+Helm charts
+Terraform/Pulumi
+autoscaling
+tenant isolation
+regional deployment
+```
+
+But do not start by making Kubernetes the center of the architecture.
+
+The center is the domain:
+
+```text
+runs
+memory
+tools
+policy
+evidence
+evals
+feedback
+outcomes
+```
+
+Cloud-native is the deployment posture, not the product.
+
+---
+
+## H — Headless
+
+### Recommendation: strongly yes
+
+Aegis should be headless.
+
+The Admin UI should be a client of the same APIs that SDKs and customer apps use.
+
+That means:
+
+```text
+Admin UI should not contain business logic.
+Demo Console should not contain business logic.
+SDKs should not bypass policy.
+External apps should integrate through the same run/tool/evidence APIs.
+```
+
+Headless is very important because Aegis may be used in multiple modes:
+
+```text
+hosted dashboard
+embedded in customer workflow
+SDK-only
+tool-broker-only
+evidence-only
+evals-only
+consulting delivery platform
+internal AIC automation
+```
+
+So yes: Aegis should be **headless by design**.
+
+---
+
+# My MACH Recommendation
+
+Use this as the architecture principle:
+
+> **Aegis is MACH-aligned: modular service boundaries, API-first contracts, cloud-native deployability, and headless interfaces. Physical microservices are deferred until operational need justifies them.**
+
+That is the safe version.
+
+---
+
+# 2. CQRS
+
+CQRS means **Command Query Responsibility Segregation**.
+
+The basic idea:
+
+```text
+commands change state
+queries read state
+```
+
+For Aegis, I recommend **selective CQRS**, not dogmatic CQRS everywhere.
+
+Aegis has many places where the command side and read side naturally differ.
+
+---
+
+# Where CQRS Fits Aegis Very Well
+
+## 1. Runs
+
+Commands:
+
+```text
+CreateRun
+StartRun
+AppendRunEvent
+RequestApproval
+CompleteRun
+FailRun
+CancelRun
+```
+
+Queries:
+
+```text
+GetRun
+ListRuns
+GetRunTimeline
+GetRunSummary
+GetRunEvidence
+GetRunEvalResults
+GetRunOutcomes
+```
+
+This is a great CQRS fit because the write side cares about state transitions, while the read side wants timelines, dashboards, and summaries.
+
+---
+
+## 2. Tool Broker
+
+Commands:
+
+```text
+ProposeToolCall
+ValidateToolCall
+AuthorizeToolCall
+ExecuteToolCall
+BlockToolCall
+RequestToolApproval
+```
+
+Queries:
+
+```text
+ListToolCallsForRun
+GetToolCallDetail
+ListBlockedToolCalls
+ListApprovalRequiredToolCalls
+GetToolRiskSummary
+```
+
+Good CQRS fit.
+
+---
+
+## 3. Memory
+
+Commands:
+
+```text
+ProposeMemoryCandidate
+AdmitMemoryCandidate
+RejectMemoryCandidate
+CorrectMemory
+SupersedeMemory
+ExpireMemory
+```
+
+Queries:
+
+```text
+RetrieveMemory
+ListMemoryForSubject
+GetMemoryHistory
+ListPendingMemoryCandidates
+SearchMemory
+```
+
+Very good CQRS fit because memory writes are governed, while memory reads need optimized retrieval and filtering.
+
+---
+
+## 4. Evidence
+
+Commands:
+
+```text
+GenerateEvidencePack
+RedactEvidencePack
+ExportEvidencePack
+LockEvidencePack
+```
+
+Queries:
+
+```text
+GetEvidencePack
+GetEvidenceSummary
+ListEvidenceForRun
+GetEvidenceCompletenessScore
+```
+
+Excellent CQRS fit.
+
+Evidence is basically a projection over many write-side events.
+
+---
+
+## 5. Evals
+
+Commands:
+
+```text
+CreateEvalCase
+RunEval
+RecordEvalResult
+PromoteEvalPack
+```
+
+Queries:
+
+```text
+GetEvalResult
+CompareEvalRuns
+ListFailures
+GetRegressionSummary
+```
+
+Good CQRS fit.
+
+---
+
+## 6. Outcomes
+
+Commands:
+
+```text
+RecordOutcome
+VerifyOutcome
+AdjustOutcomeEstimate
+```
+
+Queries:
+
+```text
+GetOutcomeSummary
+GetROIReport
+GetWorkflowKPITrend
+GetRiskPreventedReport
+```
+
+Very good CQRS fit.
+
+---
+
+# Where I Would Not Overuse CQRS
+
+Do not create separate command/read models for every tiny object immediately.
+
+For example, early MVP probably does not need elaborate CQRS for:
+
+```text
+user settings
+static tool manifests
+basic agent config
+simple lookup tables
+labels/tags
+small admin metadata
+```
+
+A simple repository pattern is fine there.
+
+---
+
+# CQRS Without Overengineering
+
+For MVP/v1, I recommend this lightweight CQRS style:
+
+```text
+Command handlers:
+  perform writes
+  enforce domain rules
+  append run events
+  emit outbox events
+
+Query handlers:
+  read optimized views
+  assemble timelines
+  generate summaries
+  serve dashboards
+```
+
+But keep the same database at first:
+
+```text
+Postgres write tables
+Postgres read views/projections
+Materialized views later if needed
+Search/vector indexes where needed
+```
+
+Do **not** immediately create separate read databases unless needed.
+
+---
+
+# Recommended CQRS Shape
+
+```text
+packages/core/
+  domain/
+  application/
+    commands/
+      create-run.ts
+      propose-tool-call.ts
+      admit-memory-candidate.ts
+      generate-evidence-pack.ts
+    queries/
+      get-run-timeline.ts
+      get-evidence-summary.ts
+      search-memory.ts
+      get-outcome-dashboard.ts
+    ports/
+      run-repository.ts
+      event-store.ts
+      projection-store.ts
+```
+
+Example:
+
+```text
+POST /runs
+  -> CreateRunCommand
+  -> CreateRunHandler
+  -> writes runs table
+  -> writes run_events table
+  -> emits run.created
+
+GET /runs/:id/timeline
+  -> GetRunTimelineQuery
+  -> reads run_events projection
+  -> returns timeline view
+```
+
+That gives you CQRS benefits without enterprise ceremony.
+
+---
+
+# 3. Should Aegis Use Event Sourcing?
+
+Related question.
+
+I would say:
+
+> **Use event logging from day one. Do not require full event sourcing for every aggregate in MVP.**
+
+For Aegis, events are extremely valuable:
+
+```text
+run.created
+memory.retrieved
+policy.checked
+tool.proposed
+tool.denied
+evidence.generated
+eval.completed
+feedback.received
+outcome.recorded
+```
+
+These events power:
+
+```text
+evidence packs
+run timelines
+debugging
+auditing
+replay
+analytics
+eval context
+business reporting
+```
+
+But full event sourcing means the event log becomes the only source of truth and all current state is rebuilt from events.
+
+That may be too much for MVP.
+
+Recommended approach:
+
+```text
+MVP:
+  state tables + run_events table
+
+v1:
+  state tables + event log + outbox + projections
+
+later:
+  event sourcing selectively for runs if needed
+```
+
+So:
+
+```text
+Yes to event-rich architecture.
+Maybe later to full event sourcing.
+```
+
+---
+
+# 4. Recommended Architecture Formula
+
+For Aegis, I would use this formula:
+
+```text
+Clean Architecture
++ Ports and Adapters
++ MACH-aligned boundaries
++ Selective CQRS
++ Event-rich audit trail
++ Local-first MVP
++ Cloud-native v1 readiness
+```
+
+This is stronger than saying “we use MACH” or “we use CQRS” in isolation.
+
+---
+
+# 5. How These Fit Together
+
+```text
+Clean Architecture:
+  protects the domain core
+
+MACH:
+  shapes the external platform posture
+
+CQRS:
+  separates writes from reads where audit/projections matter
+
+Event log:
+  gives evidence, replay, audit, and timeline
+
+Policy-as-code:
+  governs runtime decisions
+
+Ports/adapters:
+  keep model/tool/database/provider choices replaceable
+```
+
+Aegis is a perfect candidate for this combination because it is inherently about controlled state transitions and inspectable activity.
+
+---
+
+# 6. Concrete Recommendation by Stage
+
+## MVP
+
+Use:
+
+```text
+Clean Architecture: yes
+MACH: API-first + headless + cloud-ready, not full microservices
+CQRS: light command/query separation
+Event sourcing: no, but record run events
+```
+
+MVP architecture:
+
+```text
+aegis-api
+aegis-worker
+Postgres
+Redis
+OPA
+OTEL
+```
+
+Inside code:
+
+```text
+domain/
+application/
+  commands/
+  queries/
+ports/
+adapters/
+```
+
+---
+
+## v1
+
+Use:
+
+```text
+Clean Architecture: yes
+MACH: yes, with deployable API/worker/UI
+CQRS: yes for runs, memory, tools, evidence, evals, outcomes
+Event sourcing: selective or event-log-backed state
+```
+
+v1 architecture:
+
+```text
+API service
+worker service
+admin UI
+Postgres/pgvector
+Redis
+OPA
+object storage
+OTEL
+```
+
+---
+
+## v2 / scale
+
+Use:
+
+```text
+Clean Architecture: yes
+MACH: stronger microservice split if justified
+CQRS: stronger projections/read models
+Event sourcing: maybe for runs/evidence
+Event streaming: maybe NATS/Kafka/Redpanda
+```
+
+Possible split:
+
+```text
+runtime-service
+memory-service
+tool-broker-service
+policy-service
+evidence-service
+eval-service
+outcome-service
+```
+
+Only split when operational pressure justifies it.
+
+---
+
+# 7. My Final Recommendation
+
+## MACH?
+
+Yes, but phrase it this way:
+
+> **Aegis is MACH-aligned, not prematurely microservice-heavy. It is API-first, cloud-native-capable, headless, and modular, with physical microservices deferred until scale or team boundaries require them.**
+
+## CQRS?
+
+Yes, selectively.
+
+> **Aegis should use CQRS for run execution, memory admission, tool brokering, evidence generation, evals, feedback, and outcome analytics, because those areas have different write rules and read/reporting needs.**
+
+## Event Sourcing?
+
+Not fully at MVP.
+
+> **Aegis should record rich domain events from day one, use an outbox/projection model in v1, and consider full event sourcing only for selected aggregates like Runs if replay requirements justify it.**
+
+The final architecture principle should be:
+
+> **Aegis uses Clean Architecture with ports/adapters, is MACH-aligned at the platform boundary, and applies CQRS/event-rich design selectively where auditability, evidence, projections, and business reporting require it.**

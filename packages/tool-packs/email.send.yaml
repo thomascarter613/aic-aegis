@@ -1,0 +1,16 @@
+id: email.send
+name: Send Email
+description: Send an external email.
+risk_level: high_write
+side_effect: true
+requires_approval: always
+input_schema: packages/schemas/json/tools/email.send.input.schema.json
+output_schema: packages/schemas/json/tools/email.send.output.schema.json
+allowed_roles:
+  - sales_ops_agent
+  - support_agent
+data_classes_allowed:
+  - public
+  - internal
+  - confidential
+evidence_required: true
