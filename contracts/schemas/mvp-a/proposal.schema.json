@@ -1,0 +1,79 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aic-aegis.local/schemas/mvp-a/proposal.schema.json",
+  "title": "Proposal",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "mvp-a.v1"
+    },
+    "proposal_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "run_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "proposed_by_actor_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "proposal_type": {
+      "$ref": "enums.schema.json#/$defs/ProposalType"
+    },
+    "status": {
+      "$ref": "enums.schema.json#/$defs/ProposalStatus"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "summary": {
+      "type": "string",
+      "minLength": 1
+    },
+    "payload": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "source_type": {
+          "type": "string",
+          "enum": [
+            "mock_model",
+            "api",
+            "cli",
+            "system"
+          ]
+        },
+        "source_ref": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "source_type"
+      ]
+    }
+  },
+  "required": [
+    "schema_version",
+    "proposal_id",
+    "run_id",
+    "proposed_by_actor_id",
+    "proposal_type",
+    "status",
+    "created_at",
+    "summary",
+    "payload",
+    "source"
+  ]
+}

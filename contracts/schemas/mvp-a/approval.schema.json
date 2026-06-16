@@ -1,0 +1,111 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aic-aegis.local/schemas/mvp-a/approval.schema.json",
+  "title": "Approval",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "mvp-a.v1"
+    },
+    "approval_request": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "approval_request_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "run_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "proposal_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "tool_action_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "requested_by_actor_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "status": {
+          "$ref": "enums.schema.json#/$defs/ApprovalStatus"
+        },
+        "rationale": {
+          "type": "string",
+          "minLength": 1
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "expires_at": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "approval_request_id",
+        "run_id",
+        "proposal_id",
+        "tool_action_id",
+        "requested_by_actor_id",
+        "status",
+        "rationale",
+        "created_at"
+      ]
+    },
+    "approval_decision": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "approval_decision_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "approval_request_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "decided_by_actor_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "decision": {
+          "$ref": "enums.schema.json#/$defs/ApprovalDecision"
+        },
+        "rationale": {
+          "type": "string",
+          "minLength": 1
+        },
+        "decided_at": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "approval_decision_id",
+        "approval_request_id",
+        "decided_by_actor_id",
+        "decision",
+        "rationale",
+        "decided_at"
+      ]
+    }
+  },
+  "required": [
+    "schema_version",
+    "approval_request"
+  ]
+}

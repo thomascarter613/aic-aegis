@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aic-aegis.local/schemas/mvp-a/actor.schema.json",
+  "title": "Actor",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "mvp-a.v1"
+    },
+    "actor_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "actor_type": {
+      "$ref": "enums.schema.json#/$defs/ActorType"
+    },
+    "display_name": {
+      "type": "string",
+      "minLength": 1
+    },
+    "external_ref": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "metadata": {
+      "type": "object",
+      "additionalProperties": true
+    }
+  },
+  "required": [
+    "schema_version",
+    "actor_id",
+    "actor_type",
+    "display_name",
+    "metadata"
+  ]
+}

@@ -1,0 +1,114 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aic-aegis.local/schemas/mvp-a/enums.schema.json",
+  "title": "Aegis MVP-A Enums",
+  "type": "object",
+  "$defs": {
+    "ActorType": {
+      "type": "string",
+      "enum": [
+        "human",
+        "mock_model",
+        "service",
+        "worker",
+        "system"
+      ]
+    },
+    "RunStatus": {
+      "type": "string",
+      "enum": [
+        "created",
+        "running",
+        "awaiting_approval",
+        "completed",
+        "blocked",
+        "failed",
+        "cancelled"
+      ]
+    },
+    "ProposalType": {
+      "type": "string",
+      "enum": [
+        "tool_action"
+      ]
+    },
+    "ProposalStatus": {
+      "type": "string",
+      "enum": [
+        "submitted",
+        "under_policy_review",
+        "dispositioned",
+        "approval_required",
+        "blocked",
+        "mock_executed",
+        "cancelled"
+      ]
+    },
+    "ToolActionStatus": {
+      "type": "string",
+      "enum": [
+        "proposed",
+        "policy_checked",
+        "approval_required",
+        "approved",
+        "rejected",
+        "mock_executed",
+        "blocked",
+        "failed"
+      ]
+    },
+    "RiskLevel": {
+      "type": "string",
+      "enum": [
+        "low",
+        "medium",
+        "high",
+        "critical"
+      ]
+    },
+    "Disposition": {
+      "type": "string",
+      "enum": [
+        "allow",
+        "mock",
+        "block",
+        "approval_required",
+        "defer"
+      ]
+    },
+    "ApprovalStatus": {
+      "type": "string",
+      "enum": [
+        "requested",
+        "approved",
+        "rejected",
+        "expired",
+        "cancelled"
+      ]
+    },
+    "ApprovalDecision": {
+      "type": "string",
+      "enum": [
+        "approved",
+        "rejected"
+      ]
+    },
+    "EventType": {
+      "type": "string",
+      "enum": [
+        "RunCreated",
+        "RunEventRecorded",
+        "ProposalSubmitted",
+        "ToolActionProposed",
+        "PolicyCheckCompleted",
+        "ToolActionDispositioned",
+        "ApprovalGateRequested",
+        "ApprovalDecisionRecorded",
+        "ToolActionMockExecuted",
+        "ToolActionBlocked",
+        "EvidencePackGenerated",
+        "TimelineGenerated"
+      ]
+    }
+  }
+}

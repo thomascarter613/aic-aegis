@@ -1,0 +1,73 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aic-aegis.local/schemas/mvp-a/policy-check.schema.json",
+  "title": "Policy Check",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "mvp-a.v1"
+    },
+    "policy_check_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "run_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "proposal_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "tool_action_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "checked_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "policy_engine": {
+      "type": "string",
+      "minLength": 1
+    },
+    "input_ref": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "risk_level": {
+      "$ref": "enums.schema.json#/$defs/RiskLevel"
+    },
+    "matched_controls": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "default": []
+    },
+    "disposition": {
+      "$ref": "enums.schema.json#/$defs/Disposition"
+    },
+    "rationale": {
+      "type": "string",
+      "minLength": 1
+    }
+  },
+  "required": [
+    "schema_version",
+    "policy_check_id",
+    "run_id",
+    "proposal_id",
+    "tool_action_id",
+    "checked_at",
+    "policy_engine",
+    "risk_level",
+    "matched_controls",
+    "disposition",
+    "rationale"
+  ]
+}

@@ -1,0 +1,92 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aic-aegis.local/schemas/mvp-a/evidence-pack.schema.json",
+  "title": "Evidence Pack",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "mvp-a.v1"
+    },
+    "evidence_pack_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "run_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "generated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "generated_by_actor_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "manifest_version": {
+      "type": "string",
+      "const": "mvp-a.evidence.v1"
+    },
+    "summary": {
+      "type": "string"
+    },
+    "artifacts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "artifact_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "artifact_type": {
+            "type": "string",
+            "enum": [
+              "run",
+              "event",
+              "proposal",
+              "tool_action",
+              "policy_check",
+              "approval",
+              "timeline",
+              "manifest",
+              "mock_result"
+            ]
+          },
+          "record_ref": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uri": {
+            "type": "string",
+            "minLength": 1
+          },
+          "sha256": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "required": [
+          "artifact_id",
+          "artifact_type",
+          "record_ref",
+          "uri"
+        ]
+      }
+    }
+  },
+  "required": [
+    "schema_version",
+    "evidence_pack_id",
+    "run_id",
+    "generated_at",
+    "generated_by_actor_id",
+    "manifest_version",
+    "artifacts"
+  ]
+}
