@@ -1,101 +1,70 @@
-# Aegis Risk Register
+---
+title: Risk Register
+project: AIC Aegis
+product: AIC AI Reliability Control Plane
+status: Accepted
+work_packet: WP-E0-003A
+source_bundle: ChatGPT Project Sources
+last_updated: 2026-06-15
+---
 
-Status: proposed  
-Codename: Aegis  
-Product: AIC AI Reliability Control Plane  
-Last updated: 2026-06-15  
+# Risk Register
 
-## Purpose
+> **Core law:** The model proposes; the platform disposes.
 
-This register identifies key Aegis risks and mitigation themes. It should evolve as implementation progresses.
+> **Core doctrine:** Aegis is a Clean Architecture, domain-driven, event-rich, selectively CQRS, policy-enforced, evidence-first, headless, API-first, local-first, cloud-native-capable, enterprise-governance-grade AI Reliability Control Plane for provable AI work.
 
-## Risk Scale
+## 1. Purpose
 
-Severity: Low, Medium, High, Critical  
-Likelihood: Low, Medium, High  
-Status: Open, Mitigated, Accepted, Deferred, Needs Review
+The risk register identifies early product and architecture risks for AIC Aegis. It is not a compliance claim. It is an engineering and governance tool.
 
-## Initial Risks
+## 2. Risk Register
 
-| Risk ID | Risk | Severity | Likelihood | Status |
-|---|---|---:|---:|---|
-| RISK-AI-001 | Prompt injection manipulates model behavior | High | High | Open |
-| RISK-AI-002 | Tool injection manipulates tool calls | High | Medium | Open |
-| RISK-AI-003 | Memory poisoning corrupts future behavior | High | Medium | Open |
-| RISK-AI-004 | Model hallucination produces incorrect output | Medium | High | Open |
-| RISK-AI-005 | Unsafe output is trusted without validation | High | Medium | Open |
-| RISK-TOOL-001 | High-risk tool executes without approval | Critical | Medium | Open |
-| RISK-TOOL-002 | Tool credentials leak to model | Critical | Low | Open |
-| RISK-TOOL-003 | Tool schema accepts unsafe input | High | Medium | Open |
-| RISK-POL-001 | Policy bypass through missing checkpoint | High | Medium | Open |
-| RISK-POL-002 | Policy service unavailable and action fails open | High | Medium | Open |
-| RISK-MEM-001 | Memory written without source/provenance | High | Medium | Open |
-| RISK-MEM-002 | Restricted memory retrieved into prompt | Critical | Low | Open |
-| RISK-EVD-001 | Evidence pack missing critical decision records | High | Medium | Open |
-| RISK-EVD-002 | Evidence export leaks sensitive data | Critical | Low | Open |
-| RISK-TEN-001 | Cross-tenant data leakage | Critical | Low | Open |
-| RISK-SEC-001 | Secrets committed or logged | Critical | Medium | Open |
-| RISK-EVAL-001 | Bad eval gives false confidence | Medium | Medium | Open |
-| RISK-OUT-001 | Outcome/ROI overclaimed | Medium | Medium | Open |
-| RISK-OPS-001 | Silent failure hides governance gap | High | Medium | Open |
-| RISK-ARCH-001 | Domain core becomes coupled to infrastructure | High | Medium | Open |
-| RISK-SCOPE-001 | MVP scope becomes too broad to ship | High | High | Open |
+| ID | Risk | Description | Severity | Mitigation |
+|---|---|---|---|---|
+|RISK-001|Direct tool execution|Model or adapter executes tool without Tool Broker.|High|Tool Broker mandatory; architecture fitness check.|
+|RISK-002|Policy bypass|Proposal proceeds without policy check.|High|Require Policy Check before external effect.|
+|RISK-003|Evidence gaps|Run cannot be explained after completion.|High|Generate Evidence Pack and Timeline.|
+|RISK-004|Ungoverned memory|Bad or sensitive facts are written to memory.|High|Defer to MVP-B; require Memory Admission Gate.|
+|RISK-005|Premature microservices|System becomes too broad before proof loop works.|Medium|Local-first modular monolith or simple services.|
+|RISK-006|UI-first drift|UI shapes core model and bypasses APIs.|Medium|Headless/API-first doctrine.|
+|RISK-007|Generic agent drift|Aegis becomes a generic agent framework.|High|Preserve control-plane vocabulary.|
+|RISK-008|Weak schema boundaries|Events and records become inconsistent.|Medium|Version schemas and validate boundaries.|
+|RISK-009|Approval ambiguity|High-risk work lacks clear approval semantics.|Medium|Approval Gate records approver/status/rationale.|
+|RISK-010|Outcome overclaiming|Model claims success without business evidence.|Medium|Business Outcome Events separate from model output.|
 
-## Mitigation Themes
+## 3. MVP-A Critical Risks
 
-Prompt/tool injection:
+MVP-A must especially reduce:
 
-- tool broker,
-- schema validation,
-- policy checkpoints,
-- red-team evals,
-- evidence logging.
+- RISK-001 Direct tool execution;
+- RISK-002 Policy bypass;
+- RISK-003 Evidence gaps;
+- RISK-005 Premature microservices;
+- RISK-007 Generic agent drift;
+- RISK-008 Weak schema boundaries;
+- RISK-009 Approval ambiguity.
 
-Memory poisoning:
+## 4. MVP-B Critical Risks
 
-- Memory Candidate stage,
-- Memory Admission Gate,
-- provenance,
-- confidence,
-- sensitivity,
-- human review,
-- correction/supersession.
+MVP-B must especially reduce:
 
-Unsafe tool execution:
+- RISK-004 Ungoverned memory;
+- RISK-010 Outcome overclaiming;
+- feedback/eval records that are too vague to support learning.
 
-- risk classes,
-- policy decisions,
-- approval gates,
-- denied tools cannot execute,
-- evidence records.
+## 5. Risk Handling Rules
 
-Policy failure:
+1. High risks require explicit controls.
+2. Any design that increases a high risk must be reviewed.
+3. Risks should be attached to policy checks and evidence where possible.
+4. Deferred risks must remain visible rather than silently ignored.
 
-- fail closed for high-risk actions,
-- policy failure events,
-- degradation rules.
+## 6. Done Means
 
-Evidence leakage:
+The risk register is done when it:
 
-- redaction policy,
-- audience-specific evidence views,
-- export logging.
-
-Tenant leakage:
-
-- tenant_id everywhere,
-- tenant-scoped repositories,
-- isolation tests,
-- optional RLS later.
-
-Scope overbuild:
-
-- thin vertical slice,
-- golden workflow,
-- explicit defer list,
-- MVP-A/MVP-B sequencing.
-
-## Final Principle
-
-Aegis is successful only if its risks are visible, controlled, tested, and evidenced.
-
+- identifies early high-value risks;
+- maps risks to MVP controls;
+- avoids premature formal compliance language;
+- supports work-packet and ADR review.

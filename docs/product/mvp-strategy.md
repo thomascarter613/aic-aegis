@@ -1,112 +1,179 @@
-# Aegis MVP Strategy
+---
+title: MVP Strategy
+project: AIC Aegis
+product: AIC AI Reliability Control Plane
+status: Accepted
+work_packet: WP-E0-003A
+source_bundle: ChatGPT Project Sources
+last_updated: 2026-06-15
+---
 
-Status: proposed  
-Codename: Aegis  
-Product: AIC AI Reliability Control Plane  
-Last updated: 2026-06-15  
+# MVP Strategy
 
-## MVP Principle
+> **Core law:** The model proposes; the platform disposes.
 
-The MVP is not a broad platform. The MVP is a thin vertical slice through the trust loop.
+> **Core doctrine:** Aegis is a Clean Architecture, domain-driven, event-rich, selectively CQRS, policy-enforced, evidence-first, headless, API-first, local-first, cloud-native-capable, enterprise-governance-grade AI Reliability Control Plane for provable AI work.
 
-Aegis should prove:
+## 1. Purpose
 
-> AI can perform useful work under identity, policy, tool governance, evidence, eval, feedback, and outcome tracking.
+This document defines the MVP strategy for AIC Aegis.
 
-## Golden Workflow
+The MVP strategy is:
+
+**Build a thin vertical slice through the trust loop, not a broad platform.**
+
+## 2. Strategic Principle
+
+Aegis must prove that governed AI work can be represented, controlled, evidenced, and inspected.
+
+The MVP should not attempt to prove every future platform capability. It should prove the irreducible trust loop.
+
+## 3. Golden Workflow
 
 The golden workflow is:
 
-> Governed Sales/Ops Follow-Up
+**Governed Sales/Ops Follow-Up**
 
-It accepts a synthetic customer conversation and produces a governed follow-up workflow.
+This workflow is intentionally narrow because it naturally exercises the Aegis boundaries:
 
-## MVP-A — Proof Loop
+- a business purpose exists;
+- a model can propose a follow-up action;
+- the action may be safe or risky;
+- policy can classify the action;
+- approval may be required;
+- evidence matters;
+- outcomes can later be tracked.
 
-MVP-A must show:
+## 4. MVP-A: Proof Loop
 
-1. create run,
-2. record events,
-3. model proposes a tool action,
-4. Tool Broker receives proposal,
-5. policy checks the tool,
-6. safe action proceeds or is mocked,
-7. high-risk action is blocked or approval-gated,
-8. Evidence Pack is generated,
-9. run timeline is visible.
+MVP-A proves platform disposition over proposed AI work.
 
-MVP-A can defer rich memory, complex evals, advanced outcomes, full UI, real external tools, and real customer data.
+### 4.1 Included
 
-## MVP-B — Learning Loop
+- create Run;
+- record Run Events;
+- model/mock model proposes Tool Action;
+- Tool Broker receives Proposal;
+- policy checks tool action;
+- safe action proceeds or is mocked;
+- high-risk action is blocked or approval-gated;
+- Evidence Pack is generated;
+- Run Timeline is visible.
 
-MVP-B adds:
+### 4.2 Not Included
 
-1. governed memory retrieval,
-2. memory candidate proposal,
-3. Memory Admission Gate,
-4. feedback capture,
-5. basic eval result,
-6. business outcome event.
+- governed memory retrieval;
+- memory candidate proposal;
+- eval loops;
+- business outcome records;
+- broad integrations;
+- production email sending;
+- customer data;
+- enterprise auth;
+- billing.
 
-## Recommended First Visible Win
+## 5. MVP-B: Learning Loop
 
-The clearest first demo is:
+MVP-B extends MVP-A with governed learning.
 
-```text
-The AI analyzes a customer conversation.
-It drafts a useful follow-up.
-It proposes sending the email.
-Aegis blocks or requires approval for email.send.
-Aegis explains why.
-Aegis generates evidence.
-Aegis records that risk was prevented and time was saved.
-```
+### 5.1 Included
 
-## MVP Included Capabilities
+- governed memory retrieval;
+- Memory Candidate proposal;
+- Memory Admission Gate;
+- feedback capture;
+- basic Eval Result;
+- Business Outcome Event.
 
-Thin versions of:
+### 5.2 Not Included
 
-- Run Envelope,
-- Run Events,
-- Tool Proposal,
-- Tool Broker,
-- Policy Decision,
-- Approval Required state,
-- Evidence Pack,
-- Eval Result,
-- Feedback Record,
-- Business Outcome,
-- Synthetic Demo Tenant.
+- autonomous memory mutation;
+- complex eval frameworks;
+- large-scale analytics;
+- full outcome attribution;
+- multi-tenant enterprise governance.
 
-## MVP Deferred Capabilities
+## 6. Thin Slice Test
 
-Explicitly defer full microservices, Kubernetes, marketplace, plugin registry, visual workflow builder, multi-agent swarm, fine-tuning, enterprise SSO, billing, full event sourcing, real customer data, formal compliance claims, and large connector ecosystem.
+A proposed MVP feature should be rejected or deferred if it does not help answer one of these questions:
 
-## MVP Data Rule
+1. What did the model propose?
+2. What did Aegis decide?
+3. Why did Aegis decide that?
+4. Was policy applied?
+5. Was approval required?
+6. Was a tool action allowed, blocked, mocked, or gated?
+7. What evidence was produced?
+8. Can the Run be reconstructed?
+9. For MVP-B, what was learned and how was it admitted?
 
-Use synthetic data only.
+## 7. Recommended Build Order
 
-Seed:
+### Stage A1 — Run and Event Backbone
 
-- `tenant_demo`,
-- `agent_sales_ops`,
-- `workflow_sales_follow_up`,
-- sample customer,
-- sample conversation,
-- sample CRM record,
-- sample memory,
-- sample tool pack,
-- sample eval pack.
+- Run entity;
+- Actor identity;
+- Run Event schema;
+- append/list events;
+- basic Timeline query.
 
-## MVP Evidence Target
+### Stage A2 — Proposal and Tool Broker
 
-MVP targets **Evidence Level 2 — Operational Evidence**.
+- Proposal schema;
+- Tool Action Proposal;
+- Tool Broker use case;
+- mock tool adapter.
 
-## MVP Definition of Done
+### Stage A3 — Policy and Disposition
 
-MVP is done when the golden workflow can run locally and demonstrate run creation, events, model/mock output, tool proposal, policy decision, high-risk block/approval, evidence, eval, feedback, outcome, and run summary.
+- policy input schema;
+- policy result schema;
+- allow/block/mock/approval-required dispositions;
+- risk/control references.
 
-## MVP Anti-Goal
+### Stage A4 — Approval and Evidence
 
-Do not build a giant platform first. Build a narrow, obvious proof of governed AI work.
+- Approval Gate records;
+- Evidence Pack manifest;
+- artifact writer;
+- Timeline enrichment.
 
+### Stage B1 — Governed Memory
+
+- memory retrieval record;
+- Memory Candidate;
+- Memory Admission Gate.
+
+### Stage B2 — Feedback, Eval, Outcome
+
+- Feedback Event;
+- Eval Result;
+- Business Outcome Event;
+- evidence/timeline learning extensions.
+
+## 8. Explicitly Deferred
+
+- full microservices;
+- Kubernetes;
+- marketplace;
+- plugin registry;
+- visual workflow builder;
+- multi-agent swarm;
+- fine-tuning;
+- enterprise SSO;
+- billing;
+- full event sourcing;
+- real customer data;
+- formal compliance claims;
+- large connector ecosystem.
+
+## 9. MVP Acceptance Criteria
+
+The MVP strategy is accepted when:
+
+- MVP-A and MVP-B are distinct;
+- the golden workflow is named;
+- MVP-A proves governed proposal-to-evidence flow;
+- MVP-B adds learning without memory bypass;
+- deferred items are explicit;
+- the strategy supports WP-E0-004 boundary definition.

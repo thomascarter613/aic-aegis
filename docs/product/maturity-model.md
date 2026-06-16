@@ -1,49 +1,133 @@
-# Aegis Maturity Model
+---
+title: Maturity Model
+project: AIC Aegis
+product: AIC AI Reliability Control Plane
+status: Accepted
+work_packet: WP-E0-003A
+source_bundle: ChatGPT Project Sources
+last_updated: 2026-06-15
+---
 
-Status: proposed  
-Codename: Aegis  
-Product: AIC AI Reliability Control Plane  
-Last updated: 2026-06-15  
+# Maturity Model
 
-## Purpose
+> **Core law:** The model proposes; the platform disposes.
 
-The Aegis Maturity Model explains how organizations evolve from ungoverned AI usage to enterprise-grade AI operations.
+> **Core doctrine:** Aegis is a Clean Architecture, domain-driven, event-rich, selectively CQRS, policy-enforced, evidence-first, headless, API-first, local-first, cloud-native-capable, enterprise-governance-grade AI Reliability Control Plane for provable AI work.
 
-## Maturity Levels
+## 1. Purpose
 
-| Level | Name | Description |
-|---|---|---|
-| 0 | Ungoverned AI | AI is used ad hoc with little visibility |
-| 1 | Observable AI | Runs and outputs are logged |
-| 2 | Governed AI | Policy and tool controls exist |
-| 3 | Evidence-Backed AI | Evidence packs and evals exist |
-| 4 | Learning AI Operations | Feedback improves memory, prompts, policies, tools, and evals |
-| 5 | Outcome-Driven AI | AI activity is tied to business outcomes |
-| 6 | Enterprise AI Control Plane | Multi-tenant, auditable, policy-governed, integrated, scalable |
+The maturity model describes how Aegis can evolve without losing its doctrine.
 
-## MVP Target
+It is not a commitment to build every level immediately. It is a guide for sequencing.
 
-Aegis MVP should demonstrate Level 2 and pieces of Level 3:
+## 2. Maturity Levels
 
-- governed tool use,
-- policy decisions,
-- approval gate,
-- evidence pack,
-- basic eval,
-- basic outcome.
+| Level | Name | Description | Product State |
+|---|---|---|---|
+| M0 | Doctrine Defined | Core law, glossary, charter, architecture doctrine exist. | Completed by E0 documents |
+| M1 | Proof Loop | A single governed workflow proves proposal-to-evidence. | MVP-A |
+| M2 | Learning Loop | Governed memory, feedback, evals, and outcomes are added. | MVP-B |
+| M3 | Repeatable Operations | Multiple runs and policies support repeated internal use. | Post-MVP |
+| M4 | Governed Integrations | Carefully selected real integrations are added. | Later |
+| M5 | Enterprise Control Plane | Multi-tenant, enterprise controls, approvals, reporting mature. | Later |
+| M6 | Ecosystem Platform | Plugin/marketplace patterns become safe and useful. | Much later |
 
-## v1 Target
+## 3. Current Target
 
-Aegis v1 should demonstrate Level 3 and pieces of Level 4:
+The current target is **M1 Proof Loop** through MVP-A.
 
-- evidence viewer,
-- review queues,
-- governed memory,
-- eval packs,
-- feedback loops,
-- outcome dashboard.
+M2 Learning Loop is next, but must not be mixed into MVP-A except as explicit design preparation.
 
-## Final Principle
+## 4. Maturity Requirements
 
-Aegis should help customers climb the maturity model one controlled step at a time.
+### M0 — Doctrine Defined
 
+Required:
+
+- product charter;
+- glossary;
+- architecture doctrine;
+- laws;
+- MVP strategy;
+- control catalog;
+- risk register;
+- system overview.
+
+### M1 — Proof Loop
+
+Required:
+
+- Run creation;
+- event recording;
+- Proposal capture;
+- Tool Broker;
+- Policy Check;
+- allow/block/mock/approval disposition;
+- Evidence Pack;
+- Timeline.
+
+### M2 — Learning Loop
+
+Required:
+
+- governed memory retrieval;
+- Memory Candidate;
+- Memory Admission Gate;
+- Feedback Event;
+- Eval Result;
+- Business Outcome Event.
+
+### M3 — Repeatable Operations
+
+Possible later capabilities:
+
+- multiple workflow templates;
+- expanded policy library;
+- richer evidence query;
+- admin review workflows;
+- replay/simulation;
+- metrics.
+
+### M4 — Governed Integrations
+
+Possible later capabilities:
+
+- real CRM connector;
+- real email connector;
+- task system connector;
+- signed tool execution records;
+- integration-specific controls.
+
+### M5 — Enterprise Control Plane
+
+Possible later capabilities:
+
+- enterprise identity;
+- multi-tenant governance;
+- approval delegation;
+- audit reporting;
+- retention controls;
+- compliance mappings.
+
+### M6 — Ecosystem Platform
+
+Possible later capabilities:
+
+- plugin registry;
+- marketplace;
+- third-party controls;
+- connector certification;
+- partner ecosystem.
+
+## 5. Explicit Sequencing Guardrail
+
+Do not pursue M4-M6 capabilities until M1 and M2 prove the trust loop.
+
+## 6. Done Means
+
+The maturity model is done when it:
+
+- defines maturity levels;
+- identifies the current target;
+- protects MVP sequencing;
+- distinguishes future enterprise/platform ambitions from current work.

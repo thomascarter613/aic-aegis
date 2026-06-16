@@ -1,185 +1,314 @@
-# Aegis Architecture Doctrine
+---
+title: Architecture Doctrine
+project: AIC Aegis
+product: AIC AI Reliability Control Plane
+status: Accepted
+work_packet: WP-E0-003A
+source_bundle: ChatGPT Project Sources
+last_updated: 2026-06-15
+---
 
-Status: proposed  
-Codename: Aegis  
-Product: AIC AI Reliability Control Plane  
-Last updated: 2026-06-15  
+# Architecture Doctrine
 
-## Doctrine Statement
+> **Core law:** The model proposes; the platform disposes.
 
-Aegis is a **Clean Architecture, domain-driven, event-rich, selectively CQRS, policy-enforced, evidence-first, headless, API-first, local-first, cloud-native-capable, enterprise-governance-grade AI Reliability Control Plane for provable AI work**.
+> **Core doctrine:** Aegis is a Clean Architecture, domain-driven, event-rich, selectively CQRS, policy-enforced, evidence-first, headless, API-first, local-first, cloud-native-capable, enterprise-governance-grade AI Reliability Control Plane for provable AI work.
 
-Aegis does not merely run AI agents. Aegis governs AI work.
+## 1. Purpose
 
-## Highest-Level Architecture Test
+This document defines the architecture doctrine for AIC Aegis. It is the durable architectural compass for all work packets, ADRs, implementation plans, schemas, APIs, and code.
 
-Every major feature must help Aegis explain or improve at least one of these:
+Doctrine is more stable than implementation detail. Later decisions may refine implementation, but they must not violate this doctrine without an explicit Decision Record.
 
-- identity,
-- authorization,
-- context governance,
-- memory governance,
-- tool governance,
-- policy enforcement,
-- approval handling,
-- evidence generation,
-- evaluation,
-- feedback,
-- outcome measurement,
-- control coverage,
-- system reliability.
+## 2. Doctrine Statement
 
-If a feature does not improve one of these, defer it.
+Aegis is a Clean Architecture, domain-driven, event-rich, selectively CQRS, policy-enforced, evidence-first, headless, API-first, local-first, cloud-native-capable, enterprise-governance-grade AI Reliability Control Plane for provable AI work.
 
-## Core Loop
+## 3. Architectural Meaning
 
-The product is the reliability loop:
+Aegis is a **control plane**. It coordinates, governs, records, and evaluates AI work. It is not the model, the business application, the user interface, or the external tool itself.
 
-```text
-request
-  -> run envelope
-  -> governed memory
-  -> policy check
-  -> model call
-  -> tool proposal
-  -> tool broker
-  -> approval/block/execute
-  -> evidence pack
-  -> eval
-  -> feedback
-  -> memory candidate
-  -> business outcome
-```
+The architecture must separate:
 
-MVP must implement a thin vertical slice through this loop.
+- model proposal from platform disposition;
+- policy evaluation from tool execution;
+- run orchestration from infrastructure adapters;
+- evidence generation from incidental logging;
+- memory candidates from admitted memory;
+- feedback from business outcomes;
+- local MVP implementation from future cloud-native scaling.
 
-## Foundational Principles
+## 4. Clean Architecture Doctrine
 
-### Clean Architecture
+Aegis uses Clean Architecture boundaries.
 
-The domain core must not depend on frameworks, databases, policy engines, model providers, tool protocols, UI frameworks, or deployment infrastructure.
+### 4.1 Domain Layer
 
-### Ports and Adapters
+The domain layer contains core business concepts and rules.
 
-All external systems are adapters:
+Allowed domain concepts include:
 
-- model providers,
-- OPA/Rego,
-- Postgres,
-- Redis,
-- MCP,
-- OpenTelemetry,
-- CRM/email systems,
-- object storage,
-- UI.
+- Run
+- Actor
+- Proposal
+- Tool Action
+- Policy Check
+- Control
+- Risk
+- Approval Gate
+- Evidence Pack
+- Memory Candidate
+- Memory Admission
+- Feedback Event
+- Eval Result
+- Business Outcome Event
+- Timeline
+- Decision Record
 
-### Domain-Driven Design
+The domain layer must not depend on:
 
-Aegis must preserve its ubiquitous language:
+- web frameworks;
+- databases;
+- queues;
+- model SDKs;
+- cloud providers;
+- external tools;
+- persistence libraries;
+- HTTP clients.
 
-- Run,
-- Run Envelope,
-- Run Event,
-- Memory Candidate,
-- Memory Record,
-- Memory Admission Gate,
-- Tool Manifest,
-- Tool Proposal,
-- Tool Call,
-- Tool Broker,
-- Policy Decision,
-- Approval Request,
-- Evidence Pack,
-- Eval Result,
-- Feedback Record,
-- Business Outcome.
+### 4.2 Application Layer
 
-### Event-Driven Architecture
+The application layer contains use cases, commands, queries, orchestration, and ports.
 
-Every meaningful AI action should become a domain event. Event history powers evidence, auditability, reconstruction, evals, projections, and outcome analytics.
+Responsibilities include:
 
-### Selective CQRS
+- create Run;
+- record Run Event;
+- submit Proposal;
+- broker Tool Action;
+- check policy;
+- request approval;
+- generate Evidence Pack;
+- retrieve Timeline;
+- propose Memory Candidate;
+- admit or reject memory;
+- capture feedback;
+- record Eval Result;
+- record Business Outcome Event.
 
-Use command/query separation where write rules and read needs differ: runs, memory candidates, tool calls, evidence, evals, feedback, outcomes, and approvals.
+The application layer may define ports for:
 
-### MACH-Aligned
+- Run repository;
+- event store;
+- policy engine;
+- tool executor;
+- approval store;
+- evidence writer;
+- model adapter;
+- memory store;
+- eval recorder;
+- outcome recorder.
 
-Aegis should be modular, API-first, cloud-native-capable, and headless. Physical microservices are deferred until scale, team, or deployment boundaries justify them.
+### 4.3 Adapters Layer
 
-### Local-First, Cloud-Native-Capable
+Adapters implement application ports.
 
-The MVP must run locally without paid APIs. v1 should be deployable as a production stack.
+Initial adapters may be simple and local:
 
-## MVP Doctrine
+- in-memory repository;
+- file-backed evidence writer;
+- mock model adapter;
+- mock tool executor;
+- local policy evaluator;
+- SQLite/Postgres persistence adapter when needed.
 
-The MVP should not be a broad platform. It should be a narrow proof that Aegis can govern useful AI work.
+Adapters are replaceable. Adapters do not own Aegis business language.
 
-First visible win:
+### 4.4 Interfaces Layer
 
-> The AI tries to perform useful work. Aegis lets safe work proceed, blocks or escalates risky work, explains why, produces evidence, and records business value.
+Interfaces expose Aegis capabilities.
 
-## Evidence Doctrine
+Initial interfaces may include:
 
-Evidence is not logging. Evidence is a first-class trust artifact.
+- HTTP API;
+- CLI;
+- worker process;
+- local script entry point.
 
-Every governed run should produce structured, referential, inspectable, redaction-aware evidence.
+Interfaces translate external requests into commands and queries.
 
-MVP target: Evidence Level 2.  
-v1 target: Evidence Level 3.  
-Enterprise target: Evidence Level 4+.
+## 5. Domain-Driven Doctrine
 
-## Memory Doctrine
+Aegis must use its own domain language rather than generic AI-agent language.
 
-Memory is governed state, not a vector dump.
+Domain-driven design means:
 
-Durable memory requires source, subject, scope, sensitivity, confidence, lifecycle, admission decision, correction path, supersession path, and evidence reference.
+- concepts are named after the Aegis trust loop;
+- terms are defined in the glossary;
+- invariants are protected in domain/application boundaries;
+- external tool and model concepts are mapped into Aegis concepts;
+- the model does not define the domain.
 
-## Tool Doctrine
+## 6. Event-Rich Doctrine
 
-Agents do not call tools directly. Agents propose Tool Proposals.
+Aegis is event-rich because explainability requires a historical record.
 
-The Tool Broker validates, authorizes, approves/blocks, executes, filters, records, and emits evidence.
+Event-rich does not mean full event sourcing in the MVP.
 
-## Policy Doctrine
+MVP events must be enough to reconstruct:
 
-Policy must execute at runtime. Every policy decision must include a reason.
+- who started the Run;
+- what the model proposed;
+- which policy checks were applied;
+- what disposition occurred;
+- whether approval was required;
+- whether a tool was executed, mocked, blocked, or deferred;
+- which evidence artifacts were generated;
+- how the Timeline is assembled.
 
-## Evaluation Doctrine
+## 7. Selective CQRS Doctrine
 
-Evals are promotion gates. Every meaningful failure should become an eval case, policy test, memory correction, tool schema test, prompt regression, or workflow constraint.
+Aegis may use command/query separation where it improves clarity.
 
-## Outcome Doctrine
+Commands change state, such as:
 
-Aegis must not merely produce text. Aegis must connect AI activity to business value. Outcomes may be estimated or verified, but they must be labeled accurately.
+- CreateRun
+- RecordRunEvent
+- SubmitProposal
+- EvaluatePolicy
+- BrokerToolAction
+- RequestApproval
+- GenerateEvidencePack
 
-## Defer Doctrine
+Queries read state, such as:
 
-Explicitly defer:
+- GetRun
+- ListRunEvents
+- GetRunTimeline
+- GetEvidencePack
+- GetPolicyCheckResult
 
-- full microservices,
-- Kubernetes,
-- marketplace,
-- visual workflow builder,
-- multi-agent swarm,
-- fine-tuning,
-- enterprise SSO,
-- billing,
-- full event sourcing,
-- real customer data,
-- formal compliance claims,
-- large connector ecosystem.
+The MVP should not introduce heavy CQRS infrastructure. The doctrine requires semantic separation, not premature distributed systems.
 
-## Golden Workflow
+## 8. Policy-Enforced Doctrine
 
-Aegis must maintain one canonical golden workflow:
+Policy enforcement is not an afterthought.
 
-> Governed Sales/Ops Follow-Up
+Policy must be attached to platform disposition. Aegis must be able to answer:
 
-It is the demo, regression test, onboarding path, and product proof.
+- what policy was applied;
+- what input was evaluated;
+- what result was produced;
+- which controls were implicated;
+- what risk level was assigned;
+- what disposition followed.
 
-## Final Doctrine
+## 9. Evidence-First Doctrine
 
-Aegis is for **provable AI work**.
+Evidence is a product primitive.
 
-If Aegis cannot prove what happened, Aegis did not govern the work.
+Every important action should be explainable later through:
 
+- Run Events;
+- Proposal records;
+- Policy Check results;
+- Tool Broker decisions;
+- Approval Gate records;
+- tool execution or mock records;
+- Evidence Pack manifests;
+- timeline exports.
+
+Logs may support operations, but logs are not a substitute for evidence.
+
+## 10. Headless and API-First Doctrine
+
+Aegis must be usable without a UI.
+
+The core product surface is:
+
+- APIs;
+- commands;
+- queries;
+- schemas;
+- events;
+- evidence artifacts.
+
+A UI may be added later, but it must consume the same governed APIs rather than bypassing them.
+
+## 11. Local-First Doctrine
+
+MVP should run locally with minimal infrastructure.
+
+Local-first implies:
+
+- mock model is acceptable;
+- mock tool execution is acceptable;
+- file-backed evidence is acceptable;
+- lightweight persistence is acceptable;
+- no required Kubernetes;
+- no required managed cloud services.
+
+## 12. Cloud-Native-Capable Doctrine
+
+Local-first must not prevent later cloud-native deployment.
+
+This implies:
+
+- clear ports and adapters;
+- durable schemas;
+- environment-based configuration;
+- stateless API interface where practical;
+- background worker boundary where needed;
+- persistence abstractions that can later move from local to managed infrastructure.
+
+## 13. MVP Architecture Constraints
+
+MVP-A must remain the Proof Loop. It should not include the full Learning Loop unless explicitly marked as deferred.
+
+MVP-A includes:
+
+- Run creation;
+- event recording;
+- proposal submission;
+- Tool Broker flow;
+- policy check;
+- allow/block/approval-gate disposition;
+- evidence pack generation;
+- timeline query.
+
+MVP-B adds:
+
+- memory retrieval;
+- memory candidate proposal;
+- memory admission;
+- feedback;
+- eval result;
+- business outcome event.
+
+## 14. Doctrine Violations
+
+The following are doctrine violations unless explicitly scoped as future planning:
+
+- direct model-to-tool execution;
+- ungoverned memory writes;
+- policy checks that are not persisted or evidenced;
+- evidence generation as optional logging only;
+- UI-first architecture;
+- Kubernetes-first MVP;
+- generic agent framework naming;
+- full microservices before the vertical slice;
+- model output described as authoritative decision;
+- hidden tool execution outside the Tool Broker.
+
+## 15. Done Means
+
+WP-E0-003A is done when this doctrine:
+
+- states the architectural identity of Aegis;
+- anchors the core law;
+- defines Clean Architecture layer responsibilities;
+- preserves domain language;
+- requires event-rich evidence;
+- supports selective CQRS without overengineering;
+- keeps MVP local-first and cloud-native-capable;
+- identifies doctrine violations.

@@ -1,149 +1,175 @@
+---
+title: WP-E0-003 — Architecture Overview
+project: AIC Aegis
+product: AIC AI Reliability Control Plane
+status: Complete
+work_packet: WP-E0-003
+source_bundle: ChatGPT Project Sources
+last_updated: 2026-06-15
+---
+
 # WP-E0-003 — Architecture Overview
 
-Status: proposed  
-Codename: Aegis  
-Product: AIC AI Reliability Control Plane  
-Parent epic: E0 — Product Charter & Architecture  
-Last updated: 2026-06-15  
-Primary artifact: `docs/architecture/system-overview.md`
+> **Core law:** The model proposes; the platform disposes.
 
----
+> **Core doctrine:** Aegis is a Clean Architecture, domain-driven, event-rich, selectively CQRS, policy-enforced, evidence-first, headless, API-first, local-first, cloud-native-capable, enterprise-governance-grade AI Reliability Control Plane for provable AI work.
 
-## 1. Objective
+## 1. Work Packet Summary
 
-Create the canonical Aegis Architecture Overview.
+WP-E0-003 produced the initial architecture overview for AIC Aegis.
 
-This work packet converts the Product Charter, System Glossary, Architecture Doctrine Pack, Aegis Laws, Control Catalog, Risk Register, MVP Strategy, Trust Ladder, and Maturity Model into a single system-level architecture document.
+It translated the product charter, glossary, and architecture doctrine into a system-level description of how Aegis governs AI work through the MVP proof loop and future learning loop.
 
-The primary output is:
+## 2. Objective
 
-```text
-docs/architecture/system-overview.md
-```
+Define the first architecture overview for Aegis as a control plane for provable AI work.
 
----
+The work packet must answer:
 
-## 2. Architecture Position
+- What kind of system is Aegis?
+- What are its major logical components?
+- How does MVP-A flow from Run creation to Evidence Pack?
+- How does MVP-B extend MVP-A with governed learning?
+- Which architecture boundaries must be preserved?
+- Which platform ambitions are deferred?
 
-Aegis is an **AI Reliability Control Plane for provable AI work**.
+## 3. Inputs
 
-The architecture is:
+This work packet depends on:
 
-```text
-Clean Architecture
-+ Ports and Adapters
-+ Domain-Driven Design
-+ Event-Driven Architecture
-+ Selective CQRS
-+ Policy-as-Code
-+ Evidence-first auditability
-+ Governed memory
-+ Brokered tool execution
-+ Eval gates
-+ Feedback loops
-+ Business outcome tracking
-+ Local-first MVP
-+ Cloud-native-capable v1
-```
+- WP-E0-001 Product Charter;
+- WP-E0-002 System Glossary;
+- WP-E0-003A Architecture Doctrine Pack;
+- Aegis Laws;
+- MVP Strategy;
+- Control Catalog;
+- Risk Register.
 
-Aegis does not merely run AI agents.
+## 4. Outputs
 
-Aegis governs AI work.
+Primary output:
 
----
+- `docs/architecture/system-overview.md`
 
-## 3. Scope Included
+Related updated output:
 
-The architecture overview defines:
+- `docs/architecture/README.md`
 
-- system purpose,
-- doctrine summary,
-- highest-level architecture test,
-- system context,
-- MVP physical architecture shape,
-- Clean Architecture layers,
-- bounded contexts,
-- seven system planes,
-- runtime reliability loop,
-- golden workflow,
-- MVP-A and MVP-B scope,
-- command/query posture,
-- event architecture,
-- data architecture,
-- memory architecture,
-- tool governance architecture,
-- policy architecture,
-- evidence architecture,
-- evaluation architecture,
-- feedback and learning architecture,
-- business outcome architecture,
-- trust/autonomy model,
-- API architecture,
-- security and tenant architecture,
-- observability architecture,
-- deployment modes,
-- architecture fitness functions,
-- deferred scope,
-- ADR implications.
+## 5. Architecture Decisions Captured
 
----
+This work packet established that Aegis should be described as:
 
-## 4. Scope Deferred
+- a reliability control plane;
+- Clean Architecture-based;
+- domain-driven;
+- event-rich;
+- selectively CQRS;
+- policy-enforced;
+- evidence-first;
+- headless;
+- API-first;
+- local-first;
+- cloud-native-capable.
 
-This work packet does not implement code.
+## 6. MVP-A Proof Loop Boundary
 
-It does not create schemas, APIs, migrations, UI screens, services, or tests.
+WP-E0-003 confirms that MVP-A includes:
 
-It intentionally defers:
+1. create Run;
+2. record events;
+3. model/mock model proposes Tool Action;
+4. Tool Broker receives Proposal;
+5. policy checks tool action;
+6. safe action proceeds or is mocked;
+7. high-risk action is blocked or approval-gated;
+8. Evidence Pack is generated;
+9. Run Timeline is visible.
 
-- full microservices,
-- Kubernetes,
-- marketplace,
-- plugin registry,
-- visual workflow builder,
-- multi-agent swarm,
-- fine-tuning,
-- enterprise SSO,
-- billing,
-- full event sourcing,
-- real customer data,
-- formal compliance claims,
+## 7. MVP-B Learning Loop Boundary
+
+WP-E0-003 confirms that MVP-B includes:
+
+1. governed memory retrieval;
+2. memory candidate proposal;
+3. Memory Admission Gate;
+4. feedback capture;
+5. basic Eval Result;
+6. Business Outcome Event.
+
+## 8. Major Logical Components
+
+The architecture overview identifies these components:
+
+- Run Registry;
+- Event Recorder;
+- Proposal Intake;
+- Tool Broker;
+- Policy Engine Port;
+- Approval Gate;
+- Evidence Service;
+- Timeline Query;
+- Memory Service;
+- Eval and Outcome Services.
+
+## 9. Clean Architecture Boundary
+
+WP-E0-003 reinforces:
+
+- domain owns core concepts and rules;
+- application owns use cases, commands, queries, orchestration, and ports;
+- adapters implement persistence, policy, model, tool, evidence, and memory ports;
+- interfaces expose HTTP/API/CLI/worker entry points.
+
+## 10. Explicit Non-Goals
+
+WP-E0-003 does not introduce:
+
+- full microservices;
+- Kubernetes;
+- marketplace;
+- plugin registry;
+- visual workflow builder;
+- multi-agent swarm;
+- fine-tuning;
+- enterprise SSO;
+- billing;
+- full event sourcing;
+- real customer data;
+- formal compliance claims;
 - large connector ecosystem.
 
----
-
-## 5. Acceptance Criteria
+## 11. Acceptance Criteria
 
 This work packet is complete when:
 
-- `docs/architecture/system-overview.md` exists,
-- the overview aligns with the architecture doctrine,
-- the overview uses the Aegis Laws as constraints,
-- the overview preserves the thin vertical-slice MVP strategy,
-- the overview identifies the golden workflow,
-- the overview defines clean architecture layers and bounded contexts,
-- the overview defines the seven system planes,
-- the overview explains event-rich and selective CQRS posture,
-- the overview explains memory, tool, policy, evidence, eval, feedback, and outcome architecture,
-- the overview states deferred scope,
-- the overview identifies next work packets.
+- the system overview explains Aegis as a control plane;
+- MVP-A and MVP-B are clearly separated;
+- major logical components are named;
+- Clean Architecture boundaries are present;
+- evidence-first and policy-enforced doctrine are preserved;
+- local-first and cloud-native-capable posture is stated;
+- deferred platform ambitions are explicit;
+- WP-E0-004 can begin from the overview.
 
----
+## 12. Completion Status
 
-## 6. Done State
+Status: **Complete**
 
-Done means future work packets can use the architecture overview as the source of truth for system shape and boundaries.
+WP-E0-003 is complete and the next recommended work packet is:
 
-Future implementation work should not need to re-litigate whether Aegis is clean-architecture, event-rich, tool-brokered, policy-enforced, or evidence-first.
+**WP-E0-004 — MVP System Boundaries**
 
----
+## 13. Handoff to WP-E0-004
 
-## 7. Next Work
+WP-E0-004 should define exact MVP boundaries for:
 
-Recommended next sequence:
-
-1. WP-E0-004 — MVP System Boundaries
-2. WP-E0-005 — Initial ADR Pack
-3. WP-E0-006 — Threat Model Draft
-4. WP-E0-007 — First Workflow Specification
-5. WP-E1-001 — Run Envelope Schema
+- what belongs in MVP-A vs MVP-B;
+- API service vs worker service;
+- domain/application/adapters package boundaries;
+- command/query boundaries;
+- event boundaries;
+- schema boundaries;
+- persistence boundaries;
+- policy/tool/memory/evidence/eval/outcome thin-slice boundaries;
+- what is explicitly out of scope;
+- acceptance criteria for moving into WP-E0-005 Initial ADR Pack.

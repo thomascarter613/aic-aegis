@@ -1,77 +1,162 @@
+---
+title: Aegis Laws
+project: AIC Aegis
+product: AIC AI Reliability Control Plane
+status: Accepted
+work_packet: WP-E0-003A
+source_bundle: ChatGPT Project Sources
+last_updated: 2026-06-15
+---
+
 # Aegis Laws
 
-Status: proposed  
-Codename: Aegis  
-Product: AIC AI Reliability Control Plane  
-Last updated: 2026-06-15  
+> **Core law:** The model proposes; the platform disposes.
 
-## Purpose
+> **Core doctrine:** Aegis is a Clean Architecture, domain-driven, event-rich, selectively CQRS, policy-enforced, evidence-first, headless, API-first, local-first, cloud-native-capable, enterprise-governance-grade AI Reliability Control Plane for provable AI work.
 
-The Aegis Laws are the constitutional rules of the system. Future work packets, implementations, prompts, policies, schemas, tests, and demos should preserve them.
+## 1. Purpose
 
-## The Laws
+This document defines the Aegis laws. Laws are stronger than preferences. They express invariant product and architecture constraints.
 
-### Law 1 — The model proposes; the platform disposes.
+## 2. Laws
 
-The model may classify, summarize, recommend, draft, and propose. The platform decides, authorizes, records, executes, blocks, escalates, and proves.
+### Law 1 — The Model Proposes; the Platform Disposes
 
-### Law 2 — No AI action without identity.
+Model output is never inherently authoritative. Aegis must decide what happens to every important model-originated proposal.
 
-Every governed run must have `tenant_id`, `agent_id`, `run_id`, and `trace_id`.
+**Implications:**
 
-### Law 3 — No tool execution without brokered authorization.
+- The law must be visible in work packets, ADRs, APIs, and schemas.
+- Implementations that violate this law require explicit rejection or redesign.
+- Tests should eventually encode this law as an architecture or fitness check.
 
-Agents do not call tools directly. Tool execution must pass through the Tool Broker.
+### Law 2 — No External Effect Without a Governed Boundary
 
-### Law 4 — No durable memory without admission.
+No tool action, memory write, approval-sensitive step, or business-impacting side effect may bypass Aegis boundaries.
 
-The model may propose memory. Only the Memory Admission Gate can admit durable memory.
+**Implications:**
 
-### Law 5 — No sensitive action without policy.
+- The law must be visible in work packets, ADRs, APIs, and schemas.
+- Implementations that violate this law require explicit rejection or redesign.
+- Tests should eventually encode this law as an architecture or fitness check.
 
-Sensitive actions require runtime policy checks. Policy in documentation or prompts is not enough.
+### Law 3 — Proposals Are Records
 
-### Law 6 — No high-risk action without approval or denial.
+Important model outputs must be captured as Proposal records before disposition.
 
-High-risk tool calls must be approval-gated or denied by default. Critical actions are blocked by default until explicit governance exists.
+**Implications:**
 
-### Law 7 — No evidence-free governed run.
+- The law must be visible in work packets, ADRs, APIs, and schemas.
+- Implementations that violate this law require explicit rejection or redesign.
+- Tests should eventually encode this law as an architecture or fitness check.
 
-A governed run must produce evidence or record why evidence is incomplete.
+### Law 4 — Policy Is Attached to Disposition
 
-### Law 8 — No unattributed output.
+A platform disposition must be traceable to policy, control, approval, or configured rule.
 
-Every output should be attributable to run, agent, model call, prompt/config version when available, memory/context refs, tool result refs, policy decision refs, and timestamp.
+**Implications:**
 
-### Law 9 — No silent failure.
+- The law must be visible in work packets, ADRs, APIs, and schemas.
+- Implementations that violate this law require explicit rejection or redesign.
+- Tests should eventually encode this law as an architecture or fitness check.
 
-Failures must be recorded as events.
+### Law 5 — Tools Are Brokered
 
-### Law 10 — No business-value claim without an outcome record.
+External tools are reached through the Tool Broker, not directly by the model.
 
-Aegis must not claim business value without an outcome record. Outcomes may be estimated or verified, but they must be labeled accurately.
+**Implications:**
 
-### Law 11 — No infrastructure dependency inside the domain core.
+- The law must be visible in work packets, ADRs, APIs, and schemas.
+- Implementations that violate this law require explicit rejection or redesign.
+- Tests should eventually encode this law as an architecture or fitness check.
 
-The domain core must not depend on model provider SDKs, OPA internals, Postgres row types, Redis clients, MCP SDK types, OpenTelemetry SDKs, UI frameworks, or cloud SDKs.
+### Law 6 — Memory Is Admitted, Not Merely Written
 
-### Law 12 — No cross-tenant leakage.
+New memory begins as a Memory Candidate and becomes governed memory only after admission.
 
-Every tenant-owned object must be tenant-scoped.
+**Implications:**
 
-### Law 13 — No unmanaged autonomy.
+- The law must be visible in work packets, ADRs, APIs, and schemas.
+- Implementations that violate this law require explicit rejection or redesign.
+- Tests should eventually encode this law as an architecture or fitness check.
 
-Aegis should increase autonomy only when evidence, policy, evals, approvals, and outcomes justify it.
+### Law 7 — Evidence Is a Product Primitive
 
-### Law 14 — No promotion without proof.
+Aegis must generate evidence artifacts that explain governed AI work.
 
-Workflow, prompt, policy, tool, eval, memory-rule, or agent-version changes should not be promoted without relevant gates.
+**Implications:**
 
-### Law 15 — No architecture without doctrine.
+- The law must be visible in work packets, ADRs, APIs, and schemas.
+- Implementations that violate this law require explicit rejection or redesign.
+- Tests should eventually encode this law as an architecture or fitness check.
 
-Major implementation decisions must remain consistent with Architecture Doctrine, Aegis Laws, Control Catalog, Risk Register, Product Decision Records, and ADRs.
+### Law 8 — Timelines Must Be Reconstructable
 
-## Summary
+A Run must be explainable after the fact through ordered events and related records.
 
-If any law is violated, the system may still be software, but it is no longer Aegis.
+**Implications:**
 
+- The law must be visible in work packets, ADRs, APIs, and schemas.
+- Implementations that violate this law require explicit rejection or redesign.
+- Tests should eventually encode this law as an architecture or fitness check.
+
+### Law 9 — High-Risk Work Requires Stronger Disposition
+
+High-risk proposals must be blocked, mocked, modified, or approval-gated.
+
+**Implications:**
+
+- The law must be visible in work packets, ADRs, APIs, and schemas.
+- Implementations that violate this law require explicit rejection or redesign.
+- Tests should eventually encode this law as an architecture or fitness check.
+
+### Law 10 — Local Simplicity Must Not Break Future Governance
+
+The MVP may be simple, but simplicity must not remove the governing boundaries that define Aegis.
+
+**Implications:**
+
+- The law must be visible in work packets, ADRs, APIs, and schemas.
+- Implementations that violate this law require explicit rejection or redesign.
+- Tests should eventually encode this law as an architecture or fitness check.
+
+
+## 3. Law-to-MVP Mapping
+
+| Law | MVP-A Proof Loop | MVP-B Learning Loop |
+|---|---|---|
+| Model proposes; platform disposes | Proposal and disposition records | Memory/eval/outcome proposals are still governed |
+| No external effect without boundary | Tool Broker | Memory Admission Gate and outcome recording |
+| Proposals are records | Tool Action Proposal | Memory Candidate and feedback-derived candidates |
+| Policy attached to disposition | Policy Check record | Memory admission and eval criteria |
+| Tools are brokered | Required | Still required |
+| Memory is admitted | Deferred | Required |
+| Evidence is product primitive | Evidence Pack | Evidence includes feedback/eval/outcome |
+| Timelines reconstructable | Run Timeline | Learning Timeline extensions |
+| High-risk work stronger disposition | Block/approval gate | Admission rejection and eval failure |
+| Local simplicity preserves governance | Mock model/tool allowed | Local memory/eval allowed |
+
+## 4. Non-Negotiable Design Tests
+
+A proposed design fails if:
+
+1. the model can execute a tool directly;
+2. a tool action lacks a Proposal record;
+3. policy is not attached to disposition;
+4. high-risk work can proceed silently;
+5. evidence is optional for governed actions;
+6. memory can be written without admission;
+7. a Run cannot be reconstructed;
+8. the architecture forces Kubernetes or cloud services for the MVP;
+9. Aegis is described primarily as an agent framework;
+10. the UI bypasses the headless API and governing boundaries.
+
+## 5. Done Means
+
+This laws document is done when it:
+
+- states the core law;
+- expands it into enforceable supporting laws;
+- maps laws to MVP-A and MVP-B;
+- provides design tests for later review;
+- gives future ADRs a clear normative reference.

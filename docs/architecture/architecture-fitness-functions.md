@@ -1,171 +1,90 @@
+---
+title: Architecture Fitness Functions
+project: AIC Aegis
+product: AIC AI Reliability Control Plane
+status: Accepted
+work_packet: WP-E0-003A
+source_bundle: ChatGPT Project Sources
+last_updated: 2026-06-15
+---
+
 # Architecture Fitness Functions
 
-Status: proposed  
-Codename: Aegis  
-Product: AIC AI Reliability Control Plane  
-Last updated: 2026-06-15  
+> **Core law:** The model proposes; the platform disposes.
 
-## Purpose
+> **Core doctrine:** Aegis is a Clean Architecture, domain-driven, event-rich, selectively CQRS, policy-enforced, evidence-first, headless, API-first, local-first, cloud-native-capable, enterprise-governance-grade AI Reliability Control Plane for provable AI work.
 
-Architecture fitness functions are executable or reviewable checks that protect Aegis from architectural drift. They should become tests, CI checks, schema checks, policy tests, static analysis, or review checklists.
+## 1. Purpose
 
-## Identity Fitness
+Architecture fitness functions are objective checks that help preserve Aegis doctrine as the system evolves.
 
-### AF-IDENT-001 — Every run has identity
+They turn doctrine into reviewable criteria.
 
-Every `Run` must have `run_id`, `tenant_id`, `agent_id`, and `trace_id`.
+## 2. Fitness Functions
 
-### AF-IDENT-002 — Run-scoped objects link to runs
+| ID | Name | Requirement | Verification |
+|---|---|---|---|
+|FF-001|Core law visible|Architecture/docs must state that the model proposes and platform disposes.|Documentation review|
+|FF-002|No direct model-to-tool execution|Tool execution must pass through Tool Broker.|Static architecture review / tests|
+|FF-003|Proposal before disposition|Tool action cannot be dispositioned without Proposal record.|Use-case test|
+|FF-004|Policy before external effect|External effect requires policy result unless explicitly mocked/blocked.|Use-case test|
+|FF-005|Evidence pack generated|MVP-A happy path generates Evidence Pack manifest.|Integration test|
+|FF-006|Timeline reconstructable|Run Timeline can reconstruct proposal, policy, disposition, and tool result.|Integration test|
+|FF-007|Domain independence|Domain layer has no framework/database/model SDK dependency.|Static dependency check|
+|FF-008|API-first|Core capability exposed through API/command boundary, not UI-only behavior.|Architecture review|
+|FF-009|MVP-A/MVP-B separation|Memory/eval/outcome capabilities are not required to complete MVP-A.|Work-packet review|
+|FF-010|Local-first setup|MVP can run without managed cloud infrastructure.|Setup test|
 
-Run-scoped model calls, tool calls, policy decisions, evidence packs, eval results, feedback records, and outcomes should reference `run_id`.
+## 3. MVP-A Required Fitness Set
 
-## Boundary Fitness
+MVP-A must satisfy:
 
-### AF-BOUNDARY-001 — Domain does not import infrastructure
+- FF-001 Core law visible
+- FF-002 No direct model-to-tool execution
+- FF-003 Proposal before disposition
+- FF-004 Policy before external effect
+- FF-005 Evidence pack generated
+- FF-006 Timeline reconstructable
+- FF-007 Domain independence
+- FF-010 Local-first setup
 
-Domain code must not import database clients, model provider SDKs, OPA clients, Redis clients, MCP SDK types, OpenTelemetry SDKs, or web framework types.
+## 4. MVP-B Additional Fitness Set
 
-### AF-BOUNDARY-002 — External provider types are translated at adapter boundary
+MVP-B adds:
 
-Provider responses, MCP tools, OPA results, and SQL rows must be mapped into Aegis domain objects.
+- memory candidates are not admitted without the Memory Admission Gate;
+- feedback events are separate records;
+- eval results are structured records;
+- business outcomes are not inferred from model claims alone.
 
-## Event Fitness
+## 5. Future Fitness Functions
 
-### AF-EVENT-001 — Important actions emit events
+Future work may add:
 
-Run creation, policy checks, memory retrieval, tool proposals, tool decisions, approvals, evidence generation, eval completion, feedback receipt, and outcome recording must emit events.
+- schema compatibility checks;
+- event versioning checks;
+- evidence artifact completeness checks;
+- risk-control coverage checks;
+- approval SLA checks;
+- policy decision explainability checks;
+- adapter contract tests.
 
-### AF-EVENT-002 — Events are versioned
+## 6. Failure Handling
 
-Every event must include `event_type`, `event_version`, `occurred_at`, and run/tenant identifiers when applicable.
+A failed fitness function should produce one of:
 
-### AF-EVENT-003 — No silent failure
+1. code or documentation correction;
+2. explicit ADR changing the rule;
+3. work packet deferral;
+4. rejection of the proposed change.
 
-Known failures must emit failure events.
+Silent failure is not acceptable.
 
-## Tool Governance Fitness
+## 7. Done Means
 
-### AF-TOOL-001 — No direct tool execution by model
+This document is done when it:
 
-All tool execution must pass through Tool Broker.
-
-### AF-TOOL-002 — Every tool has a manifest
-
-Every registered tool must have ID, name, risk level, side-effect flag, input schema, output schema, and approval requirement.
-
-### AF-TOOL-003 — Every tool call has a policy decision
-
-A `ToolCall` cannot execute without a `PolicyDecision`.
-
-### AF-TOOL-004 — High-risk tools require approval or denial
-
-Tools classified as `high_write` or `critical` must not execute without approval or explicit deny path.
-
-## Memory Governance Fitness
-
-### AF-MEM-001 — No durable memory without admission
-
-A `MemoryRecord` cannot be created from AI output without a `MemoryAdmissionDecision`.
-
-### AF-MEM-002 — Every memory has provenance
-
-Every `MemoryRecord` must have source type, source reference, subject, scope, confidence, sensitivity, and timestamp.
-
-### AF-MEM-003 — Restricted memory is blocked by default
-
-Restricted memory candidates are denied by default in MVP.
-
-## Policy Fitness
-
-### AF-POL-001 — Policy decisions include reasons
-
-Every `PolicyDecision` must include a human-readable reason.
-
-### AF-POL-002 — Sensitive checkpoints call policy
-
-Sensitive operations must call policy before proceeding.
-
-### AF-POL-003 — Risky actions fail closed when policy unavailable
-
-If the policy service is unavailable, high-risk actions must not execute.
-
-## Evidence Fitness
-
-### AF-EVD-001 — Evidence pack references run
-
-Every `EvidencePack` must include `run_id`.
-
-### AF-EVD-002 — Evidence pack contains required references
-
-Evidence packs should include relevant input, memory, policy, model call, tool call, approval, output, eval, and outcome refs.
-
-### AF-EVD-003 — Evidence generation failure is recorded
-
-If evidence generation fails or is incomplete, an event must record the failure.
-
-## Eval Fitness
-
-### AF-EVAL-001 — Golden workflow has eval coverage
-
-The governed Sales/Ops Follow-Up workflow must always have at least one passing eval.
-
-### AF-EVAL-002 — Eval results link to runs
-
-Eval results created from run output must reference the run.
-
-## Tenant Isolation Fitness
-
-### AF-TENANT-001 — Tenant-owned records have tenant_id
-
-All tenant-owned tables must include `tenant_id`.
-
-### AF-TENANT-002 — Repository queries are tenant-scoped
-
-Repository methods must require tenant context for tenant-owned records.
-
-### AF-TENANT-003 — No cross-tenant memory retrieval
-
-Memory retrieval must not return records from another tenant.
-
-## Security Fitness
-
-### AF-SEC-001 — No secrets exposed to model
-
-Model prompts must not include raw secrets.
-
-### AF-SEC-002 — Tool credentials are brokered
-
-Tools use platform-managed scoped credentials, not model-owned credentials.
-
-### AF-SEC-003 — Synthetic data only in MVP demo
-
-MVP fixtures and demos must not require real customer data.
-
-## Outcome Fitness
-
-### AF-OUT-001 — Outcome claims require outcome records
-
-Business value claims must be backed by `BusinessOutcome` records.
-
-### AF-OUT-002 — Outcomes mark estimated vs verified
-
-Every outcome must indicate whether it is estimated or verified.
-
-## API and Contract Fitness
-
-### AF-API-001 — API schemas are versioned
-
-Public APIs and schema contracts must be versioned.
-
-### AF-API-002 — Write endpoints support idempotency where side effects are possible
-
-Commands that create or mutate state should support idempotency keys.
-
-## Initial CI Targets
-
-The first executable checks should validate that JSON schemas parse, required docs exist, tool manifests validate, policy packs have fixtures, evidence schema validates, no obvious secrets are committed, golden workflow fixtures exist, and tenant-owned schema tables include `tenant_id`.
-
-## Final Rule
-
-If the architecture cannot be tested, it will drift.
-
+- translates doctrine into testable checks;
+- identifies required MVP-A fitness functions;
+- identifies MVP-B additions;
+- creates a basis for later CI and review gates.
