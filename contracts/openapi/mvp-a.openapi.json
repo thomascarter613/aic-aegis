@@ -1,0 +1,217 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "AIC Aegis MVP-A API",
+    "version": "0.1.0",
+    "description": "Local-first MVP-A Proof Loop API for the AIC AI Reliability Control Plane."
+  },
+  "servers": [
+    {
+      "url": "http://127.0.0.1:8080"
+    }
+  ],
+  "paths": {
+    "/health": {
+      "get": {
+        "summary": "Health check",
+        "responses": {
+          "200": {
+            "description": "API is healthy"
+          }
+        }
+      }
+    },
+    "/v1/runs": {
+      "post": {
+        "summary": "Create Run",
+        "operationId": "createRun",
+        "responses": {
+          "201": {
+            "description": "Run created"
+          }
+        }
+      }
+    },
+    "/v1/runs/{run_id}": {
+      "get": {
+        "summary": "Get Run",
+        "operationId": "getRun",
+        "parameters": [
+          {
+            "name": "run_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Run returned"
+          },
+          "404": {
+            "description": "Run not found"
+          }
+        }
+      }
+    },
+    "/v1/runs/{run_id}/mock-proposals": {
+      "post": {
+        "summary": "Generate mock Tool Action Proposal",
+        "operationId": "createMockProposal",
+        "parameters": [
+          {
+            "name": "run_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Proposal and Tool Action created"
+          }
+        }
+      }
+    },
+    "/v1/tool-actions/{tool_action_id}/broker": {
+      "post": {
+        "summary": "Broker Tool Action",
+        "operationId": "brokerToolAction",
+        "parameters": [
+          {
+            "name": "tool_action_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Tool Action dispositioned"
+          }
+        }
+      }
+    },
+    "/v1/approvals/{approval_request_id}/approve": {
+      "post": {
+        "summary": "Approve and resume mock execution",
+        "operationId": "approveToolAction",
+        "parameters": [
+          {
+            "name": "approval_request_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Approval recorded and action resumed"
+          }
+        }
+      }
+    },
+    "/v1/runs/{run_id}/evidence-packs": {
+      "post": {
+        "summary": "Generate Evidence Pack",
+        "operationId": "generateEvidencePack",
+        "parameters": [
+          {
+            "name": "run_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Evidence Pack generated"
+          }
+        }
+      }
+    },
+    "/v1/runs/{run_id}/timeline": {
+      "get": {
+        "summary": "Get Run Timeline",
+        "operationId": "getRunTimeline",
+        "parameters": [
+          {
+            "name": "run_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Timeline returned"
+          }
+        }
+      }
+    },
+    "/v1/demo": {
+      "post": {
+        "summary": "Run local MVP-A demo",
+        "operationId": "runMvpADemo",
+        "responses": {
+          "200": {
+            "description": "Demo result returned"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Run": {
+        "$ref": "../schemas/mvp-a/run.schema.json"
+      },
+      "Proposal": {
+        "$ref": "../schemas/mvp-a/proposal.schema.json"
+      },
+      "ToolAction": {
+        "$ref": "../schemas/mvp-a/tool-action.schema.json"
+      },
+      "PolicyCheck": {
+        "$ref": "../schemas/mvp-a/policy-check.schema.json"
+      },
+      "Approval": {
+        "$ref": "../schemas/mvp-a/approval.schema.json"
+      },
+      "EvidencePack": {
+        "$ref": "../schemas/mvp-a/evidence-pack.schema.json"
+      },
+      "Timeline": {
+        "$ref": "../schemas/mvp-a/timeline.schema.json"
+      },
+      "DemoRequest": {
+        "type": "object",
+        "properties": {
+          "scenario": {
+            "type": "string",
+            "enum": [
+              "safe",
+              "risky",
+              "blocked"
+            ]
+          },
+          "approve": {
+            "type": "boolean"
+          }
+        }
+      }
+    }
+  }
+}
